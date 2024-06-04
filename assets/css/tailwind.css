@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Roboto", sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+  body {
+    background-color: #ffffff;
+  }
+  /* ScrollBar style */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ff6e1f;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #e8e8e8;
+    border-radius: 10px;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-block w-[172px] py-2 text-center h-10 text-base font-semibold font-roboto rounded-[5px] bg-blue-800 text-white;
+  }
+  .btn-primary-outlined {
+    @apply inline-block w-[172px] py-2 text-center h-10 text-base font-semibold font-roboto rounded-[5px] text-blue-800 border border-blue-800 hover:bg-blue-800 hover:text-white;
+  }
+  .btn-secondary {
+    @apply inline-block text-base font-medium rounded-full text-blue-800 px-[23px] py-2 bg-[#D5DBFB] border-[0.5px] border-blue-800;
+  }
+}
