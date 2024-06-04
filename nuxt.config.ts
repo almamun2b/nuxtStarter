@@ -110,9 +110,20 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@pinia/nuxt",
     "@nuxtjs/google-fonts",
+    "@vee-validate/nuxt",
   ],
 
   css: ["@/assets/css/main.css", "@/assets/css/tailwind.css"],
+
+  veeValidate: {
+    autoImports: true,
+    componentNames: {
+      Form: "VeeForm",
+      Field: "VeeField",
+      FieldArray: "VeeFieldArray",
+      ErrorMessage: "VeeErrorMessage",
+    },
+  },
 
   googleFonts: {
     display: "swap",

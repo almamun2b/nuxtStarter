@@ -5,17 +5,15 @@ const { $toast } = useNuxtApp();
 
 const openToastification = () => {
   $toast.clear();
-  $toast.success("Mamun");
+  $toast.success("This is Default Success Toast Notification");
 };
 const openToastification2 = () => {
   $toast.clear();
-  $toast.success("Mamun", {
-    toastClassName: "toasted-bg-success",
-  });
+  $toast.error("This is Default Error Toast Notification");
 };
 const openToastification3 = () => {
-  $toast.success("Mamun", {
-    toastClassName: "toasted-bg-warning",
+  $toast("This is Custon BG Color Toast Notification", {
+    toastClassName: "toasted-bg-success",
   });
 };
 </script>

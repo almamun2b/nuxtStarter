@@ -35,4 +35,7 @@
   .btn-secondary {
     @apply inline-block text-base font-medium rounded-full text-blue-800 px-[23px] py-2 bg-[#D5DBFB] border-[0.5px] border-blue-800;
   }
+  .error-message {
+    @apply text-red-600 font-normal text-base mt-0.5 ml-1;
+  }
 }
