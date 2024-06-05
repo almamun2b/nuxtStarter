@@ -16,16 +16,16 @@ const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 const termsAccepted = ref(false);
 
-const handleRegister = async () => {
+const handleRegister = async (values: any, { resetForm, setErrors }: any) => {
   isProcessing.value = true;
   $toast.clear();
   if (!termsAccepted.value) {
     $toast.error("terms Not Accepted");
     isProcessing.value = false;
     return;
-  } else if (userPass.value === userConfPass.value) {
+  } else {
     try {
-      const data = await $fetch(REGISTER, {
+      const data = await $fetch<any>(REGISTER, {
         method: "POST",
         body: {
           first_name: firstName.value,
@@ -38,21 +38,20 @@ const handleRegister = async () => {
         },
       });
       if (data) {
-        $toast.success("Success Message");
+        $toast.success(data.message);
+        resetForm();
       }
-    } catch (error) {
-      // $toast.error(
-      //   error?.response?._data?.message.email
-      //     ? error?.response?._data?.message.email
-      //     : error?.response?._data?.message.phone
-      // );
-      console.log("Error Faild to register");
+    } catch (error: any) {
+      if (error.response.status === 422) {
+        setErrors(error.data.message);
+      } else if (error.response.status === 404) {
+        $toast.error(error.data.message);
+      } else {
+        $toast.error(error.data.message);
+      }
     } finally {
       isProcessing.value = false;
     }
-  } else {
-    $toast.error("Error Password not Matched");
-    isProcessing.value = false;
   }
 };
 </script>
@@ -70,28 +69,28 @@ const handleRegister = async () => {
               <legend class="legend">First Name</legend>
               <Field
                 v-model="firstName"
-                name="firstName"
+                name="first_name"
                 type="text"
                 placeholder="First Name"
                 rules="required|minLength:3"
                 class="input-field"
               />
             </fieldset>
-            <ErrorMessage class="error-message block" name="firstName" />
+            <ErrorMessage class="error-message block" name="first_name" />
           </div>
           <div class="w-full">
             <fieldset class="input-wrapper">
               <legend class="legend">Last Name</legend>
               <Field
                 v-model="lastName"
-                name="lastName"
+                name="last_name"
                 type="text"
                 placeholder="Last Name"
                 rules="required|minLength:3"
                 class="input-field"
               />
             </fieldset>
-            <ErrorMessage class="error-message block" name="lastName" />
+            <ErrorMessage class="error-message block" name="last_name" />
           </div>
         </div>
         <div
@@ -154,7 +153,7 @@ const handleRegister = async () => {
             <legend class="legend">Confirm Password</legend>
             <Field
               v-model="userConfPass"
-              name="confirmPassword"
+              name="password_confirmation"
               :type="showConfirmPassword ? 'text' : 'password'"
               placeholder="Confirm Password"
               class="input-field"
@@ -168,19 +167,17 @@ const handleRegister = async () => {
               />
             </div>
           </fieldset>
-          <ErrorMessage class="error-message block" name="confirmPassword" />
-          <span
-            v-if="userPass != userConfPass && userConfPass"
+          <ErrorMessage
             class="error-message block"
-            >Password didn't Match</span
-          >
+            name="password_confirmation"
+          />
         </div>
       </div>
       <div class="flex justify-between items-center pt-6 pb-10">
         <div class="flex justify-start items-center space-x-2">
           <input
             type="checkbox"
-            name="termsAccepted"
+            name="is_agree_with_our_policy"
             id="termsAccepted"
             v-model="termsAccepted"
             class="checkbox cursor-pointer"

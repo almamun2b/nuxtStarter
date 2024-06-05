@@ -13,9 +13,12 @@ defineRule("required", (value: any) => {
 });
 
 defineRule("email", (value: any) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(value)) {
-    return "Invalid email address";
+  if (!value || !value.length) {
+    return true;
+  }
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  if (!regex.test(value)) {
+    return "This field must be a valid email";
   }
   return true;
 });
